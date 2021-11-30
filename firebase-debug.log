@@ -1,0 +1,21 @@
+[debug] [2021-11-30T09:04:10.465Z] ----------------------------------------------------------------------
+[debug] [2021-11-30T09:04:10.466Z] Command:       /usr/local/bin/node /usr/local/bin/firebase init
+[debug] [2021-11-30T09:04:10.467Z] CLI Version:   9.23.0
+[debug] [2021-11-30T09:04:10.467Z] Platform:      darwin
+[debug] [2021-11-30T09:04:10.467Z] Node Version:  v14.17.6
+[debug] [2021-11-30T09:04:10.468Z] Time:          Tue Nov 30 2021 12:04:10 GMT+0300 (Москва, стандартное время)
+[debug] [2021-11-30T09:04:10.468Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-11-30T09:04:10.475Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-11-30T09:04:10.475Z] > authorizing via signed-in user (avorobev.exceedteam@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/user/react/weather-app
+

@@ -1,21 +1,30 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import AuthPage  from './AuthPage';
-import ProfilePage  from './ProfilePage';
-import  WeatherPage  from './WeatherPage';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import AuthPage from "./AuthPage";
+import ProfilePage from "./ProfilePage";
+import WeatherPage from "./WeatherPage";
+
+//GET WEATHER
+// const API_KEY = "b49525870afe1ead9c41b43350b56cce";
+// getWeather = async () => {
+//   const API_URL = await fetch(
+//     `https://api.openweathermap.org/data/2.5/weather?q={city name}&appid=${API_KEY}`
+//   );
+
+//   const data = await API_URL.json();
+//   console.log(data);
+// };
 
 class App extends React.Component {
   render() {
-    return ( 
+    return (
       <Routes>
-        <Route path='/' element={<AuthPage/>}>
-        </Route>
-        <Route path='/profilepage' element={<ProfilePage/>}></Route>
-        <Route path='/weatherpage' element={<WeatherPage/>}></Route>
+        <Route path="/" element={<AuthPage />}></Route>
+        <Route path="/profilepage" element={<ProfilePage />}></Route>
+        <Route path="/weatherpage" element={<WeatherPage />}></Route>
       </Routes>
-    )
+    );
   }
 }
 
 export default App;
-

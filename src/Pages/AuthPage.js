@@ -1,45 +1,77 @@
-import React from "react";
+import { useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase-config";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-class Authpage extends React.Component {
-  render() {
-    return (
-      <Box
+function AuthPage() {
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+
+  const register = async () => {
+    try {
+      const user = await createUserWithEmailAndPassword(
+        auth,
+        registerEmail,
+        registerPassword
+      );
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignContent: "center",
+        flexWrap: "wrap",
+        "& > :not(style)": {
+          m: 20,
+          width: 200,
+          height: 200,
+        },
+      }}>
+      <Paper
+        elevation={4}
         sx={{
           display: "flex",
-          justifyContent: "center",
-          alignContent: "center",
-          flexWrap: "wrap",
-          "& > :not(style)": {
-            m: 20,
-            width: 200,
-            height: 200,
-          },
+          alignItems: "center",
+          flexDirection: "column",
+          p: 10,
         }}>
-        <Paper
-          elevation={4}
+        <h2>Register now</h2>
+        <TextField
+          onChange={(event) => {
+            setRegisterEmail(event.target.value);
+          }}
+          id="standard-basic"
+          label="Email"
+          variant="standard"
+        />
+        <TextField
+          onChange={(event) => {
+            setRegisterPassword(event.target.value);
+          }}
+          id="standard-basic"
+          label="Password"
+          variant="standard"
+        />
+        <Button
+          onClick={register}
+          variant="contained"
           sx={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-            p: 10,
+            m: 5,
           }}>
-          <TextField id="standard-basic" label="User name" variant="standard" />
-          <TextField id="standard-basic" label="Password" variant="standard" />
-          <Button
-            variant="contained"
-            sx={{
-              m: 5,
-            }}>
-            Log in
-          </Button>
-        </Paper>
-      </Box>
-    );
-  }
+          Register
+        </Button>
+      </Paper>
+    </Box>
+  );
 }
 
-export default Authpage;
+export default AuthPage;

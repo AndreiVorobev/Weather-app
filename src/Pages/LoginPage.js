@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase-config";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase-config';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 function LoginPage() {
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
 
   const login = async () => {
     try {
@@ -26,47 +26,50 @@ function LoginPage() {
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignContent: "center",
-        flexWrap: "wrap",
-        "& > :not(style)": {
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        '& > :not(style)': {
           m: 20,
           width: 200,
           height: 300,
         },
-      }}>
+      }}
+    >
       <Paper
         elevation={4}
         sx={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
           p: 10,
-        }}>
+        }}
+      >
         <h2>Log in</h2>
         <TextField
           onChange={(event) => {
             setLoginEmail(event.target.value);
           }}
-          id="standard-basic"
-          label="Email"
-          variant="standard"
+          id='standard-basic'
+          label='Email'
+          variant='standard'
         />
         <TextField
           onChange={(event) => {
             setLoginPassword(event.target.value);
           }}
-          id="standard-basic"
-          label="Password"
-          variant="standard"
+          id='standard-basic'
+          label='Password'
+          variant='standard'
         />
         <Button
           onClick={login}
-          variant="contained"
+          variant='contained'
           sx={{
             m: 5,
-          }}>
+          }}
+        >
           Submit
         </Button>
       </Paper>

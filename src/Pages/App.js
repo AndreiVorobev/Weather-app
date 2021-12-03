@@ -1,9 +1,9 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import AuthPage from "./AuthPage";
-import LoginPage from "./LoginPage";
-import ProfilePage from "./ProfilePage";
-import WeatherPage from "./WeatherPage";
+import React from 'react';
+import AuthPage from './AuthPage';
+import Router from './Router';
+import { AuthProvider } from './contexts/AuthContext';
+import ProfilePage from './ProfilePage';
+import WeatherPage from './WeatherPage';
 
 //GET WEATHER
 // const API_KEY = "b49525870afe1ead9c41b43350b56cce";
@@ -19,12 +19,13 @@ import WeatherPage from "./WeatherPage";
 class App extends React.Component {
   render() {
     return (
-      <Routes>
-        <Route path="/" element={<LoginPage />}></Route>
-        <Route path="/authpage" element={<AuthPage />}></Route>
-        <Route path="/profilepage" element={<ProfilePage />}></Route>
-        <Route path="/weatherpage" element={<WeatherPage />}></Route>
-      </Routes>
+      <Router>
+        <AuthProvider>
+          <WeatherPage />
+          <ProfilePage />
+          <AuthPage />
+        </AuthProvider>
+      </Router>
     );
   }
 }

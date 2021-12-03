@@ -5,10 +5,12 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const navigate = useNavigate();
 
   const login = async () => {
     try {
@@ -17,6 +19,7 @@ function LoginPage() {
         loginEmail,
         loginPassword
       );
+      navigate('/weatherpage');
       console.log(user);
     } catch (error) {
       console.log(error.message);

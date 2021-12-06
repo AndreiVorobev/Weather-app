@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase-config";
+import { useHistory } from "react-router";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
@@ -9,6 +10,7 @@ import Button from "@mui/material/Button";
 function AuthPage() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
+  const history = useHistory();
 
   const register = async () => {
     try {
@@ -17,6 +19,7 @@ function AuthPage() {
         registerEmail,
         registerPassword
       );
+      history.push("/weatherpage");
       console.log(user);
     } catch (error) {
       console.log(error.message);

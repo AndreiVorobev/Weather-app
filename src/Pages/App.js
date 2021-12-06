@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import AuthPage from "./AuthPage";
 import LoginPage from "./LoginPage";
 import ProfilePage from "./ProfilePage";
@@ -19,12 +19,12 @@ import WeatherPage from "./WeatherPage";
 class App extends React.Component {
   render() {
     return (
-      <Routes>
-        <Route path="/" element={<LoginPage />}></Route>
-        <Route path="/authpage" element={<AuthPage />}></Route>
-        <Route path="/profilepage" element={<ProfilePage />}></Route>
-        <Route path="/weatherpage" element={<WeatherPage />}></Route>
-      </Routes>
+      <Switch>
+        <Route exact path="/" component={LoginPage}></Route>
+        <Route path="/authpage" component={AuthPage}></Route>
+        <Route path="/profilepage" component={ProfilePage}></Route>
+        <Route path="/weatherpage" component={WeatherPage}></Route>
+      </Switch>
     );
   }
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase-config";
+import { useHistory } from "react-router";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
@@ -9,6 +10,7 @@ import Button from "@mui/material/Button";
 function LoginPage() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const history = useHistory();
 
   const login = async () => {
     try {
@@ -17,6 +19,7 @@ function LoginPage() {
         loginEmail,
         loginPassword
       );
+      history.push("/weatherpage");
       console.log(user);
     } catch (error) {
       console.log(error.message);

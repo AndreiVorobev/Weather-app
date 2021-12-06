@@ -6,23 +6,27 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { getAuth } from "firebase/auth";
 
 function AuthPage() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const history = useHistory();
 
-  const register = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(
+  const handleAction = (id) => {
+    const authentication = getAuth();
+    if (id === 2) {
+      createUserWithEmailAndPassword(
         auth,
         registerEmail,
         registerPassword
-      );
-      history.push("/weatherpage");
-      console.log(user);
-    } catch (error) {
-      console.log(error.message);
+      ).then((response) => {
+        sessionStorage.setItem(
+          "Auth Token",
+          response._tokenResponse.refreshToken
+        );
+        history.push("/weatherpage");
+      });
     }
   };
 
@@ -65,7 +69,7 @@ function AuthPage() {
           variant="standard"
         />
         <Button
-          onClick={register}
+          onClick={handleAction}
           variant="contained"
           sx={{
             m: 5,

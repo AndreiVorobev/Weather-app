@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-class WeatherPage extends React.Component {
-    render() {
-      return (
-        <div>WeatherPage</div>
-      )
+export default function WeatherPage() {
+  let navigate = useNavigate();
+  useEffect(() => {
+    let authToken = sessionStorage.getItem("Auth Token");
+
+    if (authToken) {
+      navigate("/");
     }
-  }
 
-  export default WeatherPage;
+    if (!authToken) {
+      navigate("/loginpage");
+    }
+  }, []);
+  return <div>weather page is</div>;
+}

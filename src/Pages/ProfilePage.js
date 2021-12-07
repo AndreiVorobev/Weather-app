@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-class ProfilePage extends React.Component {
-    render() {
-      return (
-        <div>
-            2
-        </div>
-      )
+export default function WeatherPage() {
+  let navigate = useNavigate();
+  useEffect(() => {
+    let authToken = sessionStorage.getItem("Auth Token");
+
+    if (authToken) {
+      navigate("/profilepage");
     }
-  }
 
-  export default ProfilePage;
+    if (!authToken) {
+      navigate("/loginpage");
+    }
+  }, []);
+  return <div>profilepage is here </div>;
+}

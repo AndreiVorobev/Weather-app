@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase-config";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
@@ -10,7 +11,7 @@ import Button from "@mui/material/Button";
 function LoginPage() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const login = async () => {
     try {
@@ -20,7 +21,14 @@ function LoginPage() {
         loginPassword
       );
 
-      history.push("/weatherpage");
+      sessionStorage.setItem(
+        "Auth Token",
+        user._tokenResponse.refreshToken,
+
+        console.log("Auth Token")
+      );
+
+      navigate("/");
 
       console.log(user);
     } catch (error) {
@@ -75,6 +83,7 @@ function LoginPage() {
           }}>
           Submit
         </Button>
+        <Link to="/authpage">create an account</Link>
       </Paper>
     </Box>
   );

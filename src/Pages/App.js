@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import AuthPage from "./AuthPage";
 import LoginPage from "./LoginPage";
 import ProfilePage from "./ProfilePage";
@@ -18,12 +18,12 @@ import WeatherPage from "./WeatherPage";
 
 function App() {
   return (
-    <Switch>
-      <Route exact path="/" component={LoginPage}></Route>
-      <Route path="/authpage" component={AuthPage}></Route>
-      <Route path="/profilepage" component={ProfilePage}></Route>
-      <Route path="/weatherpage" component={WeatherPage}></Route>
-    </Switch>
+    <Routes>
+      <Route path="/loginpage" element={<LoginPage />}></Route>
+      <Route path="/" element={<WeatherPage />}></Route>
+      <Route path="/authpage" element={<AuthPage />}></Route>
+      <Route path="/profilepage" element={<ProfilePage />}></Route>
+    </Routes>
   );
 }
 export default App;

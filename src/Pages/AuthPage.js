@@ -1,33 +1,33 @@
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase-config";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import { getAuth } from "firebase/auth";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { getAuth } from "firebase/auth";
 
 function AuthPage() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const handleAction = (id) => {
+  const handleAction = () => {
     const authentication = getAuth();
-    if (id === 2) {
-      createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword
-      ).then((response) => {
-        sessionStorage.setItem(
-          "Auth Token",
-          response._tokenResponse.refreshToken
-        );
-        history.push("/weatherpage");
-      });
-    }
+
+    createUserWithEmailAndPassword(
+      authentication,
+      registerEmail,
+      registerPassword
+    ).then((response) => {
+      sessionStorage.setItem(
+        "Auth Token",
+        response._tokenResponse.refreshToken,
+        console.log(response)
+      );
+      navigate("/weatherpage");
+    });
   };
 
   return (
@@ -40,7 +40,7 @@ function AuthPage() {
         "& > :not(style)": {
           m: 20,
           width: 200,
-          height: 200,
+          height: 300,
         },
       }}>
       <Paper
@@ -76,6 +76,7 @@ function AuthPage() {
           }}>
           Register
         </Button>
+        <Link to="/loginpage">already have an account?</Link>
       </Paper>
     </Box>
   );

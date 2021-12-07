@@ -26,7 +26,7 @@ function AuthPage() {
         response._tokenResponse.refreshToken,
         console.log(response)
       );
-      navigate("/weatherpage");
+      navigate("/");
     });
   };
 

@@ -19,8 +19,9 @@ import WeatherPage from "./WeatherPage";
 function App() {
   return (
     <Routes>
-      <Route path="/loginpage" element={<LoginPage />}></Route>
       <Route path="/" element={<WeatherPage />}></Route>
+      <Route path="/loginpage" element={<LoginPage />}></Route>
+
       <Route path="/authpage" element={<AuthPage />}></Route>
       <Route path="/profilepage" element={<ProfilePage />}></Route>
     </Routes>

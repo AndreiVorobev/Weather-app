@@ -1,37 +1,44 @@
 import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase-config";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-import { getAuth } from "firebase/auth";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-function AuthPage() {
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
+function LoginPage() {
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleAction = () => {
-    const authentication = getAuth();
+  const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
 
-    createUserWithEmailAndPassword(
-      authentication,
-      registerEmail,
-      registerPassword
-    ).then((response) => {
       sessionStorage.setItem(
         "Auth Token",
-        response._tokenResponse.refreshToken,
-        console.log(response)
+        user._tokenResponse.refreshToken,
+
+        console.log("Auth Token")
       );
+
       navigate("/");
-    });
+
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
     <Box
+      component="form"
       sx={{
         display: "flex",
         justifyContent: "center",
@@ -51,35 +58,35 @@ function AuthPage() {
           flexDirection: "column",
           p: 10,
         }}>
-        <h2>Register now</h2>
+        <h2>Log in</h2>
         <TextField
           onChange={(event) => {
-            setRegisterEmail(event.target.value);
+            setLoginEmail(event.target.value);
           }}
-          id="standard-basic"
+          id="email"
           label="Email"
           variant="standard"
         />
         <TextField
           onChange={(event) => {
-            setRegisterPassword(event.target.value);
+            setLoginPassword(event.target.value);
           }}
-          id="standard-basic"
+          id="password"
           label="Password"
           variant="standard"
         />
         <Button
-          onClick={handleAction}
+          onClick={login}
           variant="contained"
           sx={{
             m: 5,
           }}>
-          Register
+          Submit
         </Button>
-        <Link to="/">already have an account?</Link>
+        <Link to="/authpage">create an account</Link>
       </Paper>
     </Box>
   );
 }
 
-export default AuthPage;
+export default LoginPage;

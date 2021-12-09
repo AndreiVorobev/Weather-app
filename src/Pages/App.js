@@ -4,6 +4,7 @@ import AuthPage from "./AuthPage";
 import LoginPage from "./LoginPage";
 import ProfilePage from "./ProfilePage";
 import WeatherPage from "./WeatherPage";
+import PrivateRoute from "./PrivateRoute";
 
 //GET WEATHER
 // const API_KEY = "b49525870afe1ead9c41b43350b56cce";
@@ -19,11 +20,22 @@ import WeatherPage from "./WeatherPage";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<WeatherPage />}></Route>
+      <Route
+        path="/"
+        element={
+          <PrivateRoute>
+            <WeatherPage />
+          </PrivateRoute>
+        }></Route>
+      <Route
+        path="/profilepage"
+        element={
+          <PrivateRoute>
+            <ProfilePage />
+          </PrivateRoute>
+        }></Route>
       <Route path="/loginpage" element={<LoginPage />}></Route>
-
       <Route path="/authpage" element={<AuthPage />}></Route>
-      <Route path="/profilepage" element={<ProfilePage />}></Route>
     </Routes>
   );
 }

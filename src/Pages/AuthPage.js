@@ -76,7 +76,7 @@ function AuthPage() {
           }}>
           Register
         </Button>
-        <Link to="/loginpage">already have an account?</Link>
+        <Link to="/">already have an account?</Link>
       </Paper>
     </Box>
   );

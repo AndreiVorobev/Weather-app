@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { useNavigate } from "react-router";
@@ -11,7 +11,52 @@ import Button from "@mui/material/Button";
 function LoginPage() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [emailDirty, setEmailDirty] = useState(false);
+  const [passwordDirty, setPasswordDirty] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [formValid, setFormValid] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (emailError || passwordError) {
+      setFormValid(false);
+    } else {
+      setFormValid(true);
+    }
+  }, [emailError, passwordError]);
+
+  const emailHandler = (e) => {
+    setLoginEmail(e.target.value);
+    const re =
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!re.test(String(e.target.value).toLocaleLowerCase())) {
+      setEmailError("Email is not correct");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  const passwordHandler = (e) => {
+    setLoginPassword(e.target.value);
+    const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+    if (!re.test(loginPassword)) {
+      setPasswordError("password is not correct");
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  const blurHandler = (e) => {
+    switch (e.target.name) {
+      case "email":
+        setEmailDirty(true);
+        break;
+      case "password":
+        setPasswordDirty(true);
+        break;
+    }
+  };
 
   const login = async () => {
     try {
@@ -59,24 +104,30 @@ function LoginPage() {
           p: 10,
         }}>
         <h2>Log in</h2>
+
         <TextField
-          onChange={(event) => {
-            setLoginEmail(event.target.value);
-          }}
-          id="email"
+          value={loginEmail}
+          onBlur={(e) => blurHandler(e)}
+          onChange={(e) => emailHandler(e)}
+          error={emailDirty}
+          helperText={emailError}
+          name="email"
           label="Email"
           variant="standard"
         />
         <TextField
-          onChange={(event) => {
-            setLoginPassword(event.target.value);
-          }}
-          id="password"
+          value={loginPassword}
+          onBlur={(e) => blurHandler(e)}
+          onChange={(e) => passwordHandler(e)}
+          error={passwordDirty}
+          helperText={passwordError}
+          name="password"
           label="Password"
           variant="standard"
         />
         <Button
           onClick={login}
+          disabled={!formValid}
           variant="contained"
           sx={{
             m: 5,

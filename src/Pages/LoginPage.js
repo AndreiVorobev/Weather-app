@@ -11,10 +11,10 @@ import Button from "@mui/material/Button";
 function LoginPage() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [emailDirty, setEmailDirty] = useState(false);
-  const [passwordDirty, setPasswordDirty] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [fieldEmailError, setFieldEmailError] = useState(false);
+  const [fieldPasswordError, setFieldPasswordError] = useState(false);
   const [formValid, setFormValid] = useState(false);
   const navigate = useNavigate();
 
@@ -32,8 +32,10 @@ function LoginPage() {
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (!re.test(String(e.target.value).toLocaleLowerCase())) {
       setEmailError("Email is not correct");
+      setFieldEmailError(true);
     } else {
       setEmailError("");
+      setFieldEmailError(false);
     }
   };
 
@@ -42,19 +44,10 @@ function LoginPage() {
     const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
     if (!re.test(loginPassword)) {
       setPasswordError("password is not correct");
+      setFieldPasswordError(true);
     } else {
       setPasswordError("");
-    }
-  };
-
-  const blurHandler = (e) => {
-    switch (e.target.name) {
-      case "email":
-        setEmailDirty(true);
-        break;
-      case "password":
-        setPasswordDirty(true);
-        break;
+      setFieldPasswordError(false);
     }
   };
 
@@ -107,9 +100,8 @@ function LoginPage() {
 
         <TextField
           value={loginEmail}
-          onBlur={(e) => blurHandler(e)}
           onChange={(e) => emailHandler(e)}
-          error={emailDirty}
+          error={fieldEmailError}
           helperText={emailError}
           name="email"
           label="Email"
@@ -117,9 +109,8 @@ function LoginPage() {
         />
         <TextField
           value={loginPassword}
-          onBlur={(e) => blurHandler(e)}
           onChange={(e) => passwordHandler(e)}
-          error={passwordDirty}
+          error={fieldPasswordError}
           helperText={passwordError}
           name="password"
           label="Password"

@@ -1,24 +1,30 @@
-import { useState } from "react";
+// import { useState, useEffect } from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { useInput } from "./hooks/useInput";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 function LoginPage() {
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
+  const email = useInput("", {
+    isDirty: false,
+    isEmpty: true,
+    emailError: false,
+  });
+  const password = useInput("", { isEmpty: true, minLength: 7 });
   const navigate = useNavigate();
 
   const login = async () => {
     try {
       const user = await signInWithEmailAndPassword(
         auth,
-        loginEmail,
-        loginPassword
+        email.value,
+        password.value
       );
 
       sessionStorage.setItem(
@@ -58,25 +64,56 @@ function LoginPage() {
           flexDirection: "column",
           p: 10,
         }}>
-        <h2>Log in</h2>
+        <Typography variant="h5">Log in</Typography>
+
         <TextField
-          onChange={(event) => {
-            setLoginEmail(event.target.value);
-          }}
-          id="email"
+          error={email.isDirty}
+          value={email.value}
+          onChange={(e) => email.onChange(e)}
+          onBlur={(e) => email.onBlur(e)}
+          name="email"
           label="Email"
           variant="standard"
         />
+        {email.isDirty && email.isEmpty && (
+          <Typography
+            color="red"
+            variant="caption"
+            display="block"
+            gutterBottom>
+            email can not be empty
+          </Typography>
+        )}
+        {email.isDirty && email.emailError && (
+          <Typography
+            color="red"
+            variant="caption"
+            display="block"
+            gutterBottom>
+            incorrect email
+          </Typography>
+        )}
         <TextField
-          onChange={(event) => {
-            setLoginPassword(event.target.value);
-          }}
-          id="password"
+          error={password.isDirty}
+          value={password.value}
+          onChange={(e) => password.onChange(e)}
+          onBlur={(e) => password.onBlur(e)}
+          name="password"
           label="Password"
           variant="standard"
         />
+        {password.isDirty && password.isEmpty && (
+          <Typography
+            color="red"
+            variant="caption"
+            display="block"
+            gutterBottom>
+            password can not be empty
+          </Typography>
+        )}
         <Button
           onClick={login}
+          disabled={!email.inputValid}
           variant="contained"
           sx={{
             m: 5,

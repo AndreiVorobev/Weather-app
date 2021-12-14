@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
@@ -14,9 +13,15 @@ function AuthPage() {
   const email = useInput("", {
     isDirty: false,
     isEmpty: true,
-    emailError: false,
+    isEmail: true,
+    emailHelperTextError: "",
   });
-  const password = useInput("", { isEmpty: true, minLength: 7 });
+  const password = useInput("", {
+    isDirty: false,
+    isEmpty: true,
+    isPassword: true,
+    passwordHelperTextError: "",
+  });
   const navigate = useNavigate();
 
   const handleAction = () => {
@@ -59,7 +64,8 @@ function AuthPage() {
         }}>
         <Typography variant="h5">Register now</Typography>
         <TextField
-          error={email.isDirty}
+          error={email.isDirty && email.emailHelperTextError ? true : false}
+          helperText={email.emailHelperTextError}
           value={email.value}
           onChange={(e) => email.onChange(e)}
           onBlur={(e) => email.onBlur(e)}
@@ -67,26 +73,12 @@ function AuthPage() {
           label="Email"
           variant="standard"
         />
-        {email.isDirty && email.isEmpty && (
-          <Typography
-            color="red"
-            variant="caption"
-            display="block"
-            gutterBottom>
-            email can not be empty
-          </Typography>
-        )}
-        {email.isDirty && email.emailError && (
-          <Typography
-            color="red"
-            variant="caption"
-            display="block"
-            gutterBottom>
-            incorrect email
-          </Typography>
-        )}
+
         <TextField
-          error={password.isDirty}
+          error={
+            password.isDirty && password.passwordHelperTextError ? true : false
+          }
+          helperText={password.passwordHelperTextError}
           value={password.value}
           onChange={(e) => password.onChange(e)}
           onBlur={(e) => password.onBlur(e)}
@@ -94,15 +86,7 @@ function AuthPage() {
           label="Password"
           variant="standard"
         />
-        {password.isDirty && password.isEmpty && (
-          <Typography
-            color="red"
-            variant="caption"
-            display="block"
-            gutterBottom>
-            password can not be empty
-          </Typography>
-        )}
+
         <Button
           onClick={handleAction}
           disabled={!email.inputValid}
@@ -112,7 +96,7 @@ function AuthPage() {
           }}>
           Submit
         </Button>
-        <Link to="/loginpage">create an account</Link>
+        <Link to="/loginpage">Already have an account?</Link>
       </Paper>
     </Box>
   );

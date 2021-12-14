@@ -6,6 +6,7 @@ const useInput = (initialValue, validations) => {
   const [isDirty, setDirty] = useState(false);
   const valid = useValidation(value, validations);
 
+  //обработка событий
   const onChange = (e) => {
     setValue(e.target.value);
   };

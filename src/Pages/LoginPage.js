@@ -1,62 +1,36 @@
-import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { useInput } from "./hooks/useInput";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 function LoginPage() {
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [fieldEmailError, setFieldEmailError] = useState(false);
-  const [fieldPasswordError, setFieldPasswordError] = useState(false);
-  const [formValid, setFormValid] = useState(false);
+  const email = useInput("", {
+    isDirty: false,
+    isEmpty: true,
+    isEmail: true,
+    emailHelperTextError: "",
+  });
+  const password = useInput("", {
+    isDirty: false,
+    isEmpty: true,
+    isPassword: true,
+    passwordHelperTextError: "",
+  });
+
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (emailError || passwordError) {
-      setFormValid(false);
-    } else {
-      setFormValid(true);
-    }
-  }, [emailError, passwordError]);
-
-  const emailHandler = (e) => {
-    setLoginEmail(e.target.value);
-    const re =
-      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    if (!re.test(String(e.target.value).toLocaleLowerCase())) {
-      setEmailError("Email is not correct");
-      setFieldEmailError(true);
-    } else {
-      setEmailError("");
-      setFieldEmailError(false);
-    }
-  };
-
-  const passwordHandler = (e) => {
-    setLoginPassword(e.target.value);
-    const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-    if (!re.test(loginPassword)) {
-      setPasswordError("password is not correct");
-      setFieldPasswordError(true);
-    } else {
-      setPasswordError("");
-      setFieldPasswordError(false);
-    }
-  };
 
   const login = async () => {
     try {
       const user = await signInWithEmailAndPassword(
         auth,
-        loginEmail,
-        loginPassword
+        email.value,
+        password.value
       );
 
       sessionStorage.setItem(
@@ -73,7 +47,6 @@ function LoginPage() {
       console.log(error.message);
     }
   };
-
   return (
     <Box
       component="form"
@@ -96,29 +69,35 @@ function LoginPage() {
           flexDirection: "column",
           p: 10,
         }}>
-        <h2>Log in</h2>
+        <Typography variant="h5">Log in</Typography>
 
         <TextField
-          value={loginEmail}
-          onChange={(e) => emailHandler(e)}
-          error={fieldEmailError}
-          helperText={emailError}
+          error={email.isDirty && email.emailHelperTextError ? true : false}
+          helperText={email.emailHelperTextError}
+          value={email.value}
+          onChange={(e) => email.onChange(e)}
+          onBlur={(e) => email.onBlur(e)}
           name="email"
           label="Email"
           variant="standard"
         />
+
         <TextField
-          value={loginPassword}
-          onChange={(e) => passwordHandler(e)}
-          error={fieldPasswordError}
-          helperText={passwordError}
+          error={
+            password.isDirty && password.passwordHelperTextError ? true : false
+          }
+          helperText={password.passwordHelperTextError}
+          value={password.value}
+          onChange={(e) => password.onChange(e)}
+          onBlur={(e) => password.onBlur(e)}
           name="password"
           label="Password"
           variant="standard"
         />
+
         <Button
           onClick={login}
-          disabled={!formValid}
+          disabled={!email.inputValid}
           variant="contained"
           sx={{
             m: 5,

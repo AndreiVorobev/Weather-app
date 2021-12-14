@@ -13,9 +13,16 @@ function LoginPage() {
   const email = useInput("", {
     isDirty: false,
     isEmpty: true,
-    emailError: false,
+    isEmail: true,
+    emailHelperTextError: "",
   });
-  const password = useInput("", { isEmpty: true, minLength: 7 });
+  const password = useInput("", {
+    isDirty: false,
+    isEmpty: true,
+    isPassword: true,
+    passwordHelperTextError: "",
+  });
+
   const navigate = useNavigate();
 
   const login = async () => {
@@ -40,7 +47,6 @@ function LoginPage() {
       console.log(error.message);
     }
   };
-
   return (
     <Box
       component="form"
@@ -66,7 +72,8 @@ function LoginPage() {
         <Typography variant="h5">Log in</Typography>
 
         <TextField
-          error={email.isDirty}
+          error={email.isDirty && email.emailHelperTextError ? true : false}
+          helperText={email.emailHelperTextError}
           value={email.value}
           onChange={(e) => email.onChange(e)}
           onBlur={(e) => email.onBlur(e)}
@@ -74,26 +81,12 @@ function LoginPage() {
           label="Email"
           variant="standard"
         />
-        {email.isDirty && email.isEmpty && (
-          <Typography
-            color="red"
-            variant="caption"
-            display="block"
-            gutterBottom>
-            email can not be empty
-          </Typography>
-        )}
-        {email.isDirty && email.emailError && (
-          <Typography
-            color="red"
-            variant="caption"
-            display="block"
-            gutterBottom>
-            incorrect email
-          </Typography>
-        )}
+
         <TextField
-          error={password.isDirty}
+          error={
+            password.isDirty && password.passwordHelperTextError ? true : false
+          }
+          helperText={password.passwordHelperTextError}
           value={password.value}
           onChange={(e) => password.onChange(e)}
           onBlur={(e) => password.onBlur(e)}
@@ -101,15 +94,7 @@ function LoginPage() {
           label="Password"
           variant="standard"
         />
-        {password.isDirty && password.isEmpty && (
-          <Typography
-            color="red"
-            variant="caption"
-            display="block"
-            gutterBottom>
-            password can not be empty
-          </Typography>
-        )}
+
         <Button
           onClick={login}
           disabled={!email.inputValid}
